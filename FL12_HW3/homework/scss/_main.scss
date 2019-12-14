@@ -1,0 +1,239 @@
+$ui-colors:(primaryColor: $color-charade-or-white,
+    buttonBackground: $color-limeade-or-corn,
+    buttonText: $color-springWood,
+    highlight: $color-eastern-blue-or-red-orange,
+    cardBackground: $color-charade-or-brightGray,
+    cardTitleAndLinks: $color-white,
+    secondaryColor: $color-ghost-or-silverHand,
+    bannerFirstColor: $color-limeade-or-galliano,
+    bannerSecondColor:$color-mariner-or-camelot,
+    backgroundColor: $color-white-or-charade);
+
+@mixin button-mixin {
+    font-weight: bold;
+    font-size: 16px;
+    padding: 15px 32px;
+    text-align: center;
+    color: map-get($ui-colors, buttonText);
+    background-color: map-get($ui-colors, buttonBackground);
+    border: none;
+    cursor: pointer;
+
+    &:hover {
+        color: darken(map-get($ui-colors, buttonText), 20%)
+    }
+}
+
+@mixin link-mixin($color) {
+    color: map-get($ui-colors, cardTitleAndLinks);
+
+    &:hover {
+        color: darken($color, 20%)
+    }
+}
+
+@mixin landing-logo {
+    .landing-logo {
+        display: grid;
+        grid-template-columns: 45px 70px;
+        grid-gap: 10px;
+        align-items: center;
+        justify-items: center;
+        font-family: $secondaryFont, sans-serif;
+
+        img {
+            grid-column: 1/2;
+
+        }
+
+        p {
+            font-weight: bold;
+            font-size: 20px;
+            grid-column: 2/3;
+
+            span {
+                display: block;
+                font-weight: normal;
+                font-size: 10px;
+                padding: 1px 5px;
+
+                &::before {
+                    content: attr(data-text);
+                }
+            }
+        }
+    }
+}
+
+@mixin highlight-mixin($width, $bottom, $left) {
+    &::before {
+        content: '';
+        display: block;
+        position: absolute;
+        height: 50px;
+        width: $width;
+        background: map-get($ui-colors, highlight);
+        bottom: $bottom;
+        left: $left;
+        z-index: -1;
+    }
+}
+
+.section_banner_text {
+    font-family: $secondaryFont, sans-serif;
+    color: map-get($ui-colors, secondaryColor);
+}
+
+.footer-wrap {
+    @extend .section_banner_text;
+}
+
+.section_card_text {
+    @extend .section_banner_text;
+}
+
+body {
+    margin: auto;
+    background: map-get($ui-colors, backgroundColor);
+}
+
+.header {
+    .header-wrap {
+        height: 230px;
+        color: map-get($ui-colors, primaryColor);
+        background: url($backgroundImg) no-repeat;
+        background-position: bottom -200px right 0;
+        background-size: cover;
+        border-radius: 0 0 450px/200px;
+        padding: 20px 100px 300px 100px;
+        @include landing-logo;
+
+        .header_heading {
+            position: relative;
+            font-family: $primaryFont, sans-serif;
+            font-weight: bold;
+            font-size: 60px;
+            line-height: 60px;
+            max-width: 500px;
+            margin-bottom: 20px;
+            z-index: 1;
+            @include highlight-mixin(250px, 3px, 0px);
+        }
+
+        .header_text {
+            font-family: $secondaryFont, sans-serif;
+            white-space: pre-line;
+            margin-bottom: 60px;
+        }
+
+        .header_button {
+            @include button-mixin;
+        }
+
+        .login {
+            margin-left: 130px;
+            @include link-mixin($color:map-get($ui-colors, cardTitleAndLinks));
+        }
+    }
+
+}
+
+.section {
+    .section_text {
+        text-align: center;
+        font-size: 30px;
+        font-weight: bold;
+        font-family: $primaryFont, sans-serif;
+        color: map-get($ui-colors, primaryColor);
+
+        @include highlight-mixin(137px, 40px, 685px);
+    }
+
+    .section_card_wrap {
+        margin-bottom: 60px;
+
+        .section_card {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            grid-gap: 20px;
+            background: map-get($ui-colors, cardBackground);
+            border-radius: 5px;
+            margin: 20px 250px 20px 250px;
+
+            .section_card_img {
+                width: 330px;
+                height: auto;
+                border-radius: 5px;
+                margin: 20px 0 20px 20px;
+            }
+
+            .section_card_right_container {
+                display: grid;
+                margin: 0 15px 0 15px;
+                justify-items: center;
+
+                .section_card_heading {
+                    align-self: end;
+                    font-size: 20px;
+                    font-weight: bold;
+                    font-family: $primaryFont, sans-serif;
+                    color: map-get($ui-colors, cardTitleAndLinks);
+                }
+
+                .section_card_text {
+                    align-self: center;
+                }
+
+                .section_link {
+                    align-self: start;
+                    @include link-mixin($color:map-get($ui-colors, secondaryColor));
+                }
+            }
+        }
+    }
+}
+
+.section_banner {
+    position: relative;
+    bottom: -80px;
+    z-index: 0;
+    background: linear-gradient(to right, map-get($ui-colors, bannerFirstColor), map-get($ui-colors, bannerSecondColor));
+    margin: 0 225px 0 225px;
+
+    .section_banner_text_wrap {
+        display: inline-block;
+        margin: 0 150px 25px 0;
+        padding-left: 100px;
+
+        .section_banner_heading {
+            font-size: 30px;
+            font-weight: bold;
+            font-family: $primaryFont, sans-serif;
+            color: map-get($ui-colors, primaryColor);
+
+            @include highlight-mixin(62px, 100px, 225px);
+        }
+    }
+
+    .section_banner_button {
+        display: inline-block;
+        @include button-mixin;
+    }
+}
+
+.footer {
+    background: map-get($ui-colors, cardBackground);
+
+    .footer-wrap {
+        display: grid;
+        grid-template-columns: 1fr 320px 1fr;
+        align-items: center;
+        padding: 100px 0 50px 0;
+        margin: 0 100px;
+        @include landing-logo;
+
+        .footer-cr {
+            justify-self: end;
+        }
+    }
+}

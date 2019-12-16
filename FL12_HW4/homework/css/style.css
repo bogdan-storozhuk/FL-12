@@ -34,7 +34,7 @@
 
 
 .home_wrapper {
-    height: 600px;
+    height: calc(100vh - 60px);
     background: url("../img/home-bg.jpg") no-repeat;
     background-size: cover;
     display: grid;

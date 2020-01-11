@@ -9,16 +9,12 @@ function convert(...args) {
     }
     return arr;
 }
-convert('1', 2, 3, '4');
 
 function executeforEach(elements, func) {
     for (let i = 0; i < elements.length; i++) {
         func(elements[i]);
     }
 }
-executeforEach([1, 2, 3], (el) => {
-    console.log(el * 2)
-});
 
 function mapArray(elements, func) {
     let newElements = [];
@@ -31,10 +27,6 @@ function mapArray(elements, func) {
     return newElements;
 }
 
-mapArray([2, '5', 8], (el) => {
-    return el + 3
-});
-
 function filterArray(elements, func) {
     let arr = [];
     executeforEach(elements, (el) => {
@@ -44,9 +36,6 @@ function filterArray(elements, func) {
     });
     return arr;
 }
-filterArray([2, 5, 8], (el) => {
-    return el % 2 === 0;
-});
 
 function flipOver(text) {
     let newText = '';
@@ -55,7 +44,6 @@ function flipOver(text) {
     }
     return newText;
 }
-flipOver('hey world');
 
 function makeListFromRange(range) {
     let arr = [];
@@ -64,8 +52,6 @@ function makeListFromRange(range) {
     }
     return arr;
 }
-
-makeListFromRange([2, 7]);
 
 function getArrayOfKeys(objArr, keyName) {
     let arr = [];
@@ -76,18 +62,6 @@ function getArrayOfKeys(objArr, keyName) {
     });
     return arr;
 }
-
-const actors = [{
-        name: 'tommy',
-        age: 36
-    },
-    {
-        name: 'lee',
-        age: 28
-    }
-];
-
-getArrayOfKeys(actors, 'name');
 
 function substitute(elements) {
     const minNumber = 30;
@@ -101,8 +75,6 @@ function substitute(elements) {
     return arr;
 }
 
-substitute([58, 14, 48, 2, 31, 29]);
-
 function getPastDay(date, days) {
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     let newDate = new Date(date);
@@ -113,26 +85,59 @@ function getPastDay(date, days) {
     return `${dayNumber}, (${dayNumber} ${month} ${year})`;
 }
 
-const date = new Date(2019, 0, 2);
-getPastDay(date, 1);
-getPastDay(date, 2);
-getPastDay(date, 365);
-
 function formatDate(date) {
     if (date instanceof Date && date !== undefined) {
-        let year = date.getFullYear(),
+        let twoDigitMin = 10,
+            year = date.getFullYear(),
             month = date.getMonth() + 1,
             dayNumber = date.getDate(),
             hours = date.getHours(),
             minutes = date.getMinutes();
-        if (hours < 10) {
+        if (hours < twoDigitMin) {
             hours = '0' + hours;
-        } else if (minutes < 10) {
+        } else if (minutes < twoDigitMin) {
             minutes = '0' + minutes;
         }
         return `${year}/${month}/${dayNumber} ${hours}:${minutes}`;
     }
 }
+
+const actors = [{
+            name: 'tommy',
+            age: 36
+        },
+        {
+            name: 'lee',
+            age: 28
+        }
+    ],
+    date = new Date(2019, 0, 2);
+
+convert('1', 2, 3, '4');
+
+executeforEach([1, 2, 3], (el) => {
+    console.log(el * 2);
+});
+
+mapArray([2, '5', 8], (el) => {
+    return el + 3;
+});
+
+filterArray([2, 5, 8], (el) => {
+    return el % 2 === 0;
+});
+
+flipOver('hey world');
+
+makeListFromRange([2, 7]);
+
+getArrayOfKeys(actors, 'name');
+
+substitute([58, 14, 48, 2, 31, 29]);
+
+getPastDay(date, 1);
+getPastDay(date, 2);
+getPastDay(date, 365);
 
 formatDate(new Date('6/15/2018 09:15:00'));
 formatDate(new Date());

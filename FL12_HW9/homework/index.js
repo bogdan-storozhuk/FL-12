@@ -95,7 +95,8 @@ function formatDate(date) {
             minutes = date.getMinutes();
         if (hours < twoDigitMin) {
             hours = '0' + hours;
-        } else if (minutes < twoDigitMin) {
+        }
+        if (minutes < twoDigitMin) {
             minutes = '0' + minutes;
         }
         return `${year}/${month}/${dayNumber} ${hours}:${minutes}`;

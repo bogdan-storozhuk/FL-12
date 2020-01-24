@@ -1,0 +1,30 @@
+.caret {
+    cursor: pointer;
+    user-select: none;
+}
+
+.nested {
+    display: none;
+}
+
+.active {
+    display: block;
+}
+
+.folder_icon {
+    color: #edbc0b;
+}
+
+.file_icon {
+    color: #bbbbbb;
+}
+
+.active-element {
+    background: #efefef;
+}
+.list{
+    list-style :none;
+}
+.empty_folder{
+    font-style: italic;
+}

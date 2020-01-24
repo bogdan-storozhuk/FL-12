@@ -1,6 +1,6 @@
 let rootElement = document.getElementById('root');
 
-function mainPageRender() {
+function renderMainPage() {
     let addButton = document.createElement('button'),
         list = document.createElement('ul');
     addButton.textContent = 'Add new';
@@ -43,7 +43,7 @@ function mainPageRender() {
     });
 }
 
-function addSetPageRender() {
+function renderAddSetPage() {
     let term = document.createElement('input'),
         definition = document.createElement('input'),
         confirmButton = document.createElement('button'),
@@ -71,7 +71,7 @@ function addSetPageRender() {
     });
 }
 
-function modifySetPageRender() {
+function renderModifySetPage() {
     let term = document.createElement('input'),
         definition = document.createElement('input'),
         confirmButton = document.createElement('button'),
@@ -102,9 +102,9 @@ function modifySetPageRender() {
 }
 
 if (location.hash === '') {
-    mainPageRender();
+    renderMainPage();
 } else if (location.hash === '#/add') {
-    addSetPageRender();
+    renderAddSetPage();
 } else {
-    modifySetPageRender();
+    renderModifySetPage();
 }

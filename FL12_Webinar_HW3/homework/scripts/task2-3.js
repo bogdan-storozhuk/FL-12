@@ -17,9 +17,9 @@ class Employee {
         this.department = department;
         this.age = this.calculateAge(birthday);
         this.fullName = `${this.firstName} ${this.lastName}`;
-        // Employee.EMPLOYEES.push(this);
+        Employee.EMPLOYEES.push(this);
     }
-    
+
     calculateAge(DOB) {
         var today = new Date();
         var birthDate = new Date(DOB);
@@ -31,12 +31,17 @@ class Employee {
         return age;
     }
     quit() {
-
+        let employeeIndex=Employee.EMPLOYEES.findIndex(element=>element.id===this.id);
+        Employee.EMPLOYEES.splice(employeeIndex,1);
     }
     retire() {
+        let employeeIndex=Employee.EMPLOYEES.findIndex(element=>element.id===this.id);
+        Employee.EMPLOYEES.splice(employeeIndex,1);
         console.log('It was such a pleasure to work with you!');
     }
     getFired() {
+        let employeeIndex=Employee.EMPLOYEES.findIndex(element=>element.id===this.id);
+        Employee.EMPLOYEES.splice(employeeIndex,1);
         console.log('Not a big deal!');
     }
     changeDepartment(newDepartment) {
@@ -81,6 +86,7 @@ class Employee {
         console.log('Damn!')
     }
 }
+Employee.EMPLOYEES = [];
 
 class Manager extends Employee {
     constructor({
@@ -100,6 +106,10 @@ class Manager extends Employee {
             position: 'manager',
             department
         })
+    }
+    get managedEmployees() {
+       let filterEmployees=Employee.EMPLOYEES.filter(element=>element.department===this.department);
+        return filterEmployees;
     }
 }
 
@@ -173,23 +183,30 @@ function ManagerPro(manager) {
     Object.assign(manager, promoter());
 }
 
-Employee.EMPLOYEES = [];
-
 let salesManager1 = new SalesManager({
-    id: 0,
+    id: 1,
     firstName: 'Bogdan',
     lastName: 'Storozhuk',
     birthday: '02/02/1996',
     salary: 3500
 });
 let salesManager2 = new SalesManager({
-    id: 0,
+    id: 2,
     firstName: 'kek',
     lastName: 'kekw',
     birthday: '02/02/1996',
     salary: 3500
 });
+let hrManager1= new HRManager({
+    id: 3,
+    firstName: 'me',
+    lastName: ':)',
+    birthday: '02/02/1996',
+    salary: 3500
+});
 ManagerPro(salesManager1);
 salesManager1.promote(salesManager2, 'test');
-console.log(salesManager1);
-console.log(salesManager2);
+// console.log(salesManager1);
+// console.log(salesManager2);
+// console.log(Employee.EMPLOYEES);
+// console.log(salesManager1.managedEmployees);

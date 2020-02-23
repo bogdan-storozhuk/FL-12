@@ -2,50 +2,44 @@ class Deck {
     constructor() {
         this.cards = [];
         let suitNames = ['hearts', 'diamonds', 'clubs', 'spades'];
-        for (let i = 0; i < suitNames.length; i++) {
-            for (let j = 1; j <= 13; j++) {
-                if (j > 1 && j < 11) {
-                    this.cards.push(new Card(suitNames[i], j, false))
-                } else {
-                    this.cards.push(new Card(suitNames[i], j, true))
-                }
+        for (let suitIndex = 0; suitIndex < suitNames.length; suitIndex++) {
+            for (let cardRank = 1; cardRank <= 13; cardRank++) {
+                this.cards.push(new Card(suitNames[suitIndex], cardRank));
             }
         }
-        // for (let i = 0; i < this.cards.length; i++) {
-        //     console.log(this.cards[i].toString());
-        // }
-        this._count = this.cards.length;
     }
     get count() {
-        return this._count;
+        return this.cards.length;
     }
     shuffle() {
-        let j, temporalValue;
-        for (let i = 0; i < this._count; i++) {
-            j = Math.floor(Math.random() * (i + 1));
-            temporalValue = this.cards[i];
-            this.cards[i] = this.cards[j];
-            this.cards[j] = temporalValue;
+        let randomCard, temporalValue;
+        for (let cardIndex = 0; cardIndex < this.count; cardIndex++) {
+            randomCard = Math.floor(Math.random() * (cardIndex + 1));
+            temporalValue = this.cards[cardIndex];
+            this.cards[cardIndex] = this.cards[randomCard];
+            this.cards[randomCard] = temporalValue;
         }
     }
-    draw(n) {
+    draw(cardQuantity) {
         let drawnCards = [];
-        for (let i = 0; i < n; i++) {
+        for (let cardNumber = 0; cardNumber < cardQuantity; cardNumber++) {
             drawnCards.push(this.cards.pop());
-            this._count--;
         }
         return drawnCards;
     }
 }
 
 class Card {
-    constructor(suit, rank, isFaceCard) {
+    constructor(suit, rank) {
         this.suit = suit;
         this.rank = rank;
-        this._isFaceCard = isFaceCard;
     }
     get isFaceCard() {
-        return this._isFaceCard;
+        if (this.rank >= 1 && this.rank < 11) {
+            return false;
+        } else {
+            return true;
+        }
     }
     toString() {
         let rankName;
@@ -81,38 +75,40 @@ class Card {
 class Player {
     constructor(name) {
         this.name = name;
-        this.wins = 0;
         this.deck = new Deck();
         this.deck.shuffle();
     }
     static play(playerOne, playerTwo) {
+        let playerOneWinsNumber = 0,
+            playerTwoWinsNumber = 0;
+        playerOne.GetWinsNumber = () => playerOneWinsNumber;
+        playerTwo.GetWinsNumber = () => playerTwoWinsNumber;
         while (playerOne.deck.count > 0 && playerTwo.deck.count > 0) {
             let playerOnePulledCards = playerOne.deck.draw(1),
                 playerTwoPulledCards = playerTwo.deck.draw(1),
                 cardComparison = Card.compare(playerOnePulledCards[0], playerTwoPulledCards[0]);
             switch (cardComparison) {
                 case '>':
-                    playerOne.wins++;
+                    playerOneWinsNumber++;
                     break;
                 case '<':
-                    playerTwo.wins++;
+                    playerTwoWinsNumber++;
                     break;
                 default:
             }
         }
-        if (playerOne.wins > playerTwo.wins) {
-            console.log(`${playerOne.name} wins ${playerOne.wins} to ${playerTwo.wins}`);
+        if (playerOne.GetWinsNumber() > playerTwo.GetWinsNumber()) {
+            console.log(`${playerOne.name} wins ${playerOne.GetWinsNumber()} to ${playerTwo.GetWinsNumber()}`);
         } else {
-            console.log(`${playerTwo.name} wins ${playerTwo.wins} to ${playerOne.wins}`);
+            console.log(`${playerTwo.name} wins ${playerTwo.GetWinsNumber()} to ${playerOne.GetWinsNumber()}`);
         }
-        playerOne.wins = 0;
-        playerTwo.wins = 0;
+        playerOneWinsNumber = 0;
+        playerTwoWinsNumber = 0;
         playerOne.deck = new Deck();
         playerTwo.deck = new Deck();
         playerOne.deck.shuffle();
         playerTwo.deck.shuffle();
     }
-
 }
 
 Player.play(new Player('A-player'), new Player('B-player'));

@@ -1,3 +1,4 @@
+let EMPLOYEES = [];
 class Employee {
     constructor({
         id,
@@ -15,33 +16,36 @@ class Employee {
         this.salary = salary;
         this.position = position;
         this.department = department;
-        this.age = this.calculateAge(birthday);
-        this.fullName = `${this.firstName} ${this.lastName}`;
-        Employee.EMPLOYEES.push(this);
+        EMPLOYEES.push(this);
     }
-
-    calculateAge(DOB) {
-        var today = new Date();
-        var birthDate = new Date(DOB);
-        var age = today.getFullYear() - birthDate.getFullYear();
-        var m = today.getMonth() - birthDate.getMonth();
-        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+    get age() {
+        let today = new Date(),
+            birthDate = new Date(this.birthday),
+            age = today.getFullYear() - birthDate.getFullYear(),
+            months = today.getMonth() - birthDate.getMonth();
+        if (months < 0 || (months === 0 && today.getDate() < birthDate.getDate())) {
             age = age - 1;
         }
         return age;
     }
+    get fullName() {
+        return `${this.firstName} ${this.lastName}`;
+    }
+    static get EMPLOYEES() {
+        return EMPLOYEES;
+    }
     quit() {
-        let employeeIndex=Employee.EMPLOYEES.findIndex(element=>element.id===this.id);
-        Employee.EMPLOYEES.splice(employeeIndex,1);
+        let employeeIndex = Employee.EMPLOYEES.findIndex(element => element.id === this.id);
+        Employee.EMPLOYEES.splice(employeeIndex, 1);
     }
     retire() {
-        let employeeIndex=Employee.EMPLOYEES.findIndex(element=>element.id===this.id);
-        Employee.EMPLOYEES.splice(employeeIndex,1);
+        let employeeIndex = Employee.EMPLOYEES.findIndex(element => element.id === this.id);
+        Employee.EMPLOYEES.splice(employeeIndex, 1);
         console.log('It was such a pleasure to work with you!');
     }
     getFired() {
-        let employeeIndex=Employee.EMPLOYEES.findIndex(element=>element.id===this.id);
-        Employee.EMPLOYEES.splice(employeeIndex,1);
+        let employeeIndex = Employee.EMPLOYEES.findIndex(element => element.id === this.id);
+        Employee.EMPLOYEES.splice(employeeIndex, 1);
         console.log('Not a big deal!');
     }
     changeDepartment(newDepartment) {
@@ -86,8 +90,6 @@ class Employee {
         console.log('Damn!')
     }
 }
-Employee.EMPLOYEES = [];
-
 class Manager extends Employee {
     constructor({
         id,
@@ -108,8 +110,7 @@ class Manager extends Employee {
         })
     }
     get managedEmployees() {
-       let filterEmployees=Employee.EMPLOYEES.filter(element=>element.department===this.department);
-        return filterEmployees;
+        return Employee.EMPLOYEES.filter(element => element.department === this.department);
     }
 }
 
@@ -192,21 +193,17 @@ let salesManager1 = new SalesManager({
 });
 let salesManager2 = new SalesManager({
     id: 2,
-    firstName: 'kek',
-    lastName: 'kekw',
+    firstName: 'test',
+    lastName: 'test',
     birthday: '02/02/1996',
     salary: 3500
 });
-let hrManager1= new HRManager({
+let hrManager1 = new HRManager({
     id: 3,
-    firstName: 'me',
-    lastName: ':)',
+    firstName: 'thats',
+    lastName: 'me',
     birthday: '02/02/1996',
     salary: 3500
 });
 ManagerPro(salesManager1);
 salesManager1.promote(salesManager2, 'test');
-// console.log(salesManager1);
-// console.log(salesManager2);
-// console.log(Employee.EMPLOYEES);
-// console.log(salesManager1.managedEmployees);

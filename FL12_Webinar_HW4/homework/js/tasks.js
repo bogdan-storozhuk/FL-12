@@ -38,7 +38,7 @@ function findUniqueElements(elements) {
     elements.forEach(element => {
         set.add(element)
     });
-    return set;
+    return Array.from(set);
 }
 
 function hideNumber(phoneNumber) {

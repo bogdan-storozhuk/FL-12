@@ -8,6 +8,7 @@ function addPropertyNode(key, value, userItem) {
 
 let isObject = (element) => typeof element === 'object' && element !== null;
 
+let isInputMatchId = (input, textId) => input.id.indexOf(textId) > -1;
 
 let addInstancePropertiesNodes = (listItemName, instance, htmlNodeItem) => {
     let propertyItem;
@@ -62,6 +63,32 @@ function fillUserEditPopup(rootElement, instance, instanceTitle) {
         }
     }
 }
+
+function FillUpdatedUser() {
+    let updatedUser = {},
+        editElementInputs = document.querySelectorAll('.edit-inputs'),
+        editElementLabels = document.querySelectorAll('.edit-labels'),
+        input, label;
+    updatedUser.adress = {};
+    updatedUser.company = {};
+    updatedUser.company.geo = {};
+    for (let index = 0; index < editElementInputs.length; index++) {
+        input = editElementInputs[index];
+        label = editElementLabels[index];
+        if (isInputMatchId(input, "address")) {
+            updatedUser.adress[label.textContent] = input.value;
+        } else if (isInputMatchId(input, "geo")) {
+            updatedUser.company.geo[label.textContent] = input.value;
+        } else if (isInputMatchId(input, "company")) {
+            updatedUser.company[label.textContent] = input.value;
+        } else {
+            updatedUser[label.textContent] = input.value;
+        }
+    }
+
+    return updatedUser;
+}
+
 ShowSpinner();
 
 userService.getUsers()
@@ -77,13 +104,18 @@ userService.getUsers()
             HideSpinner();
         });
     }).catch((error) => {
+        console.log(error);
         HideSpinner();
     });
 
 $(document).on('click', '.delete-button', function (event) {
     ShowSpinner()
-    userService.deleteUserById(event.target.id);
-    HideSpinner();
+    userService.deleteUserById(event.target.id)
+        .then(() => HideSpinner())
+        .catch((error) => {
+            console.log(error);
+            HideSpinner();
+        });
 })
 $(document).on('click', '.edit-button', function (event) {
     ShowSpinner();
@@ -97,26 +129,14 @@ $(document).on('click', '.edit-button', function (event) {
             });
 
             $('.submit-button').on('click', () => {
-                let updatedUser = {},
-                    editElementInputs = document.querySelectorAll('.edit-inputs'),
-                    editElementLabels = document.querySelectorAll('.edit-labels');
-                updatedUser.adress = {};
-                updatedUser.company = {};
-                updatedUser.company.geo = {};
-                for (let i = 0; i < editElementInputs.length; i++) {
-                    if (editElementInputs[i].id.indexOf("address") > -1) {
-                        updatedUser.adress[editElementLabels[i].textContent] = editElementInputs[i].value;
-                    } else if (editElementInputs[i].id.indexOf("geo") > -1) {
-                        updatedUser.company.geo[editElementLabels[i].textContent] = editElementInputs[i].value;
-                    } else if (editElementInputs[i].id.indexOf("company") > -1) {
-                        updatedUser.company[editElementLabels[i].textContent] = editElementInputs[i].value;
-                    } else {
-                        updatedUser[editElementLabels[i].textContent] = editElementInputs[i].value;
-                    }
-                }
                 ShowSpinner();
-                userService.updateUserById(event.target.id, updatedUser);
-                HideSpinner();
+                let updatedUser = FillUpdatedUser();
+                userService.updateUserById(event.target.id, updatedUser)
+                    .then(() => HideSpinner())
+                    .catch((error) => {
+                        console.log(error);
+                        HideSpinner();
+                    });
             });
         });
     HideSpinner();

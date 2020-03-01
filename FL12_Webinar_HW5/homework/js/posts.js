@@ -1,6 +1,10 @@
 import UserService from '../js/UserService.js';
 let userService = new UserService();
-let id = window.location.search.split('').slice(8, 10).join('');
+let id = GetUserIdFromUrl();
+
+function GetUserIdFromUrl() {
+    return window.location.search.split('').slice(8, 10).join('');
+}
 
 function fillWithPosts(root, posts) {
     posts.forEach(element => {

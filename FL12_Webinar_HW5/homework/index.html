@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FL12_Webinar_HW5</title>
+    <link rel="stylesheet" href="./styles/bootstrap.min.css">
+    <link rel="stylesheet/less" href="./styles/styles.less">
+    <script src="./js/less.min.js"></script>
+</head>
+
+<body>
+    <div class="d-flex justify-content-center">
+        <div id='spinner' class="spinner-border text-primary" style="width: 5rem; height: 5rem; position: fixed;
+        margin-left: -50px;
+        margin-top: -50px;
+        top: 50%;
+        left: 50%;
+        z-index: 2;"></div>
+    </div>
+    <div class="container">
+        <ul class="list-group user-list"></ul>
+    </div>
+    <div class="modal" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Modal Heading</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form></form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="submit-button btn btn-primary" data-dismiss="modal">Submit</button>
+                    <button type="button" class="cancel-button btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="./js/jquery-3.4.1.min.js"></script>
+    <script src="./js/popper.min.js"></script>
+    <script src="./js/bootstrap.min.js"></script>
+    <script type="module" src="./js/script.js"></script>
+</body>
+
+</html>

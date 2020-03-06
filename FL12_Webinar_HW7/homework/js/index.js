@@ -1,3 +1,4 @@
+import '../src/styles.less';
 import Paper from './paper.js';
 import Rock from './rock.js';
 import Scissors from './scissors.js';

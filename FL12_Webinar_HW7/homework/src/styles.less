@@ -1,0 +1,46 @@
+@import "./variables.less";
+
+.rules {
+    border: 6px double @rules-border;
+    width: 50%;
+    margin: auto;
+    padding: 20px;
+}
+
+.game {
+    width: 50%;
+    margin: auto;
+    padding: 20px;
+
+    &__controls {
+        display: grid;
+        grid-template-columns: auto auto auto;
+        grid-column-gap: 10px;
+    }
+
+    &__button {
+        padding: 15px 32px;
+        font-size: 16px;
+        background: @button-color;
+    }
+
+    &__round {
+        margin: 60px;
+        font-size: 30px;
+        text-align: center;
+    }
+
+    &__scoreboard {
+        display: grid;
+        grid-template-columns: auto auto auto;
+        justify-items: center;
+        font-weight: bold;
+        font-size: 24px;
+    }
+
+    &__resetWrapper {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+}

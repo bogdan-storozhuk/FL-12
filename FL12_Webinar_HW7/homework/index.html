@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FL12_Webinar_HW7</title>
+    <link rel="stylesheet/less" href="./src/styles.less">
+</head>
+
+<body>
+    <main>
+        <article>
+            <div class='rules'>
+                <h2 class='rules__title'>Let’s play!</h1>
+                    <p>Everybody knows the rules:</p>
+                    <ul class='rules__list'>
+                        <li>Scissors beats a paper</li>
+                        <li>Paper beats rock</li>
+                        <li>Rock beats scissors</li>
+                        <li>And we play up to three wins!</li>
+                    </ul>
+            </div>
+        </article>
+        <section class='game'>
+            <div class='game__controls'>
+                <button class='game__button game__button--rock'>Rock</button>
+                <button class='game__button game__button--paper'>Paper</button>
+                <button class='game__button game__button--scissors'>Scissors</button>
+            </div>
+            <div class='game__round'></div>
+            <div class='game__scoreboard'>
+                <p>Wins:<span class='game__wins'>0</span></p>
+                <p>Losses:<span class='game__losses'>0</span></p>
+                <p>Draws:<span class='game__draws'>0</span></p>
+            </div>
+            <div class='game__resetWrapper'>
+                <button class='game__button game__button--reset'>Reset</button>
+            </div>
+        </section>
+    </main>
+    <script src="./js/less.min.js"></script>
+    <script src="./dist/app.js"></script>
+</body>
+
+</html>

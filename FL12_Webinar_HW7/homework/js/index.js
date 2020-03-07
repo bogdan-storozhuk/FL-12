@@ -1,4 +1,7 @@
 import "../src/styles.less";
+import rockImage from "../img/rock.png";
+import paperImage from "../img/paper.png";
+import scissorsImage from "../img/scissors.png";
 import Paper from "./paper.js";
 import Rock from "./rock.js";
 import Scissors from "./scissors.js";
@@ -102,3 +105,13 @@ scissorsButton.addEventListener("click", () => {
 resetButton.addEventListener("click", () => {
   rockPaperScissors.resetScore();
 });
+let rockImageElement=document.createElement('img'),
+    paperImageElement=document.createElement('img'),
+    scissorsImageElement=document.createElement('img');
+rockImageElement.src=rockImage;
+paperImageElement.src=paperImage;
+scissorsImageElement.src=scissorsImage;
+rockButton.prepend(rockImageElement);
+paperButton.prepend(paperImageElement);
+scissorsButton.prepend(scissorsImageElement);
+

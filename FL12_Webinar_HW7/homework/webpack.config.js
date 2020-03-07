@@ -1,6 +1,10 @@
 const path = require("path"),
     HtmlWebpackPlugin = require('html-webpack-plugin'),
-    MiniCssExtractPlugin = require('mini-css-extract-plugin');
+    MiniCssExtractPlugin = require('mini-css-extract-plugin'),
+    imageminGifsicle = require("imagemin-gifsicle"),
+    imageminPngquant = require("imagemin-pngquant"),
+    imageminSvgo = require("imagemin-svgo"),
+    imageminMozjpeg = require('imagemin-mozjpeg');
 module.exports = (env = {}) => {
     const {
         mode = 'development'
@@ -42,12 +46,40 @@ module.exports = (env = {}) => {
                 {
                     test: /\.(png|jpg|jpeg|gif|ico)$/,
                     use: [{
-                        loader: 'file-loader',
-                        options: {
-                            outputPath: 'img',
-                            name: '[name]-[sha1:hash:7].[ext]'
+                            loader: 'file-loader',
+                            options: {
+                                outputPath: 'img',
+                                name: '[name]-[sha1:hash:7].[ext]'
+                            }
+                        },
+                        {
+                            loader: 'img-loader',
+                            options: {
+                                plugins: [
+                                    imageminGifsicle({
+                                        interlaced: false
+                                    }),
+                                    imageminMozjpeg({
+                                        progressive: true,
+                                        arithmetic: false
+                                    }),
+                                    imageminPngquant({
+                                        floyd: 0.5,
+                                        speed: 2
+                                    }),
+                                    imageminSvgo({
+                                        plugins: [{
+                                                removeTitle: true
+                                            },
+                                            {
+                                                convertPathData: false
+                                            }
+                                        ]
+                                    })
+                                ]
+                            }
                         }
-                    }]
+                    ]
                 },
                 //Loading css
                 {

@@ -53,30 +53,27 @@ module.exports = (env = {}) => {
                             }
                         },
                         {
-                            loader: 'img-loader',
+                            loader: 'image-webpack-loader',
                             options: {
-                                plugins: [
-                                    imageminGifsicle({
-                                        interlaced: false
-                                    }),
-                                    imageminMozjpeg({
-                                        progressive: true,
-                                        arithmetic: false
-                                    }),
-                                    imageminPngquant({
-                                        floyd: 0.5,
-                                        speed: 2
-                                    }),
-                                    imageminSvgo({
-                                        plugins: [{
-                                                removeTitle: true
-                                            },
-                                            {
-                                                convertPathData: false
-                                            }
-                                        ]
-                                    })
-                                ]
+                                mozjpeg: {
+                                    progressive: true,
+                                    quality: 65
+                                },
+                                // optipng.enabled: false will disable optipng
+                                optipng: {
+                                    enabled: false,
+                                },
+                                pngquant: {
+                                    quality: [0.65, 0.90],
+                                    speed: 4
+                                },
+                                gifsicle: {
+                                    interlaced: false,
+                                },
+                                // the webp option will enable WEBP
+                                webp: {
+                                    quality: 75
+                                }
                             }
                         }
                     ]

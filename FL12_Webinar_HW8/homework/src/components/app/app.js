@@ -10,8 +10,11 @@ const App=()=> {
     <CourseListHeader/>
     <Switch>
       <Route path='/' component={CoursePage} exact></Route>
-      <Route path='/add-edit-course' component={AddEditCourse}></Route>
-      <Route path='/add-edit-course/:id' component={AddEditCourse}></Route>
+      <Route path='/add-edit-course' component={AddEditCourse} exact></Route>
+      <Route path='/add-edit-course/:id' render={({match})=>{
+        const {id}=match.params;
+        return <AddEditCourse itemId={id}/>
+      }}></Route>
     </Switch>
     </main>
     );

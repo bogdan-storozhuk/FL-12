@@ -19,30 +19,41 @@ class LessonForm extends Component {
         this.setState({
             topic:e.target.value
         });
-        console.log(this.state.topic);
     }
     onDateChange=(e)=>{
         this.setState({
             date:e.target.value
         });
-        console.log(this.state.date);
     }
     onLecturerChange=(e)=>{
         this.setState({
             lecturer:e.target.value
         });
-        console.log(this.state.lecturer);
     }
     onDurationChange=(e)=>{
         this.setState({
             duration:e.target.value
         });
-        console.log(this.state.duration);
     }
     onSubmit=()=>{
         this.props.onItemAdded(this.state);
     }
+    componentDidMount(){
+        let {itemId} =this.props.itemId;
+        if(itemId){
+            itemId=Number(itemId);
+            const lesson=this.props.courseLessons.filter(item=>item.id===itemId);
+           this.setState({
+               id:lesson[0].id,
+               topic:lesson[0].topic,
+               date:lesson[0].date,
+               lecturer:lesson[0].lecturer,
+               duration:lesson[0].duration
+           });
+        }
+    }
     render() {
+        console.log(this.state);
         return (<div className='form-container'>
                      <form className='lesson-form'>
                         <FormHeader title={'New lesson'}/>
@@ -61,4 +72,9 @@ const mapDispatchToProps=(dispatch)=>{
         onItemAdded:(lesson)=>{dispatch(lessonAddedToCourse(lesson))}
     }
 }
-export default connect(null,mapDispatchToProps)(LessonForm);
+const mapStateToProps=({courseLessons})=>{
+    return{
+        courseLessons
+    }
+}
+export default connect(mapStateToProps,mapDispatchToProps)(LessonForm);

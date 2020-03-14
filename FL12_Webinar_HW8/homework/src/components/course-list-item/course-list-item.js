@@ -21,7 +21,7 @@ class CourseListItem extends Component{
             lecturer,
             duration
         } = courseLesson;
-        const editLink=`/add-edit-course:${id}`;
+        const editLink=`/add-edit-course/${id}`;
         return(
             <div className='course-list-item'>
                 <span>{date}</span>
@@ -30,7 +30,7 @@ class CourseListItem extends Component{
                 <span>{duration}</span>
                 <button onClick={()=>onDelete(id)}><img className='icon' src={deleteIcon} alt='deleteIcon'></img>Delete</button>
                 <button onClick={()=>onEdit(id)}>
-                    <Link className='edit-link' to='/add-edit-course'>
+                    <Link className='edit-link' to={editLink}>
                         <img className='icon' src={editIcon} alt='editIcon'></img>
                         Edit
                     </Link>

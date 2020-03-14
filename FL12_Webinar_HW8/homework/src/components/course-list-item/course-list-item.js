@@ -11,8 +11,7 @@ class CourseListItem extends Component{
     render(){
         const {
             courseLesson,
-            onDelete,
-            onEdit
+            onDelete
         } = this.props;
         const {
             id,
@@ -29,7 +28,7 @@ class CourseListItem extends Component{
                 <span>{lecturer}</span>
                 <span>{duration}</span>
                 <button onClick={()=>onDelete(id)}><img className='icon' src={deleteIcon} alt='deleteIcon'></img>Delete</button>
-                <button onClick={()=>onEdit(id)}>
+                <button>
                     <Link className='edit-link' to={editLink}>
                         <img className='icon' src={editIcon} alt='editIcon'></img>
                         Edit
@@ -41,8 +40,7 @@ class CourseListItem extends Component{
 }
 const mapDispatchToProps=(dispatch)=>{
     return{
-        onDelete:(id)=>dispatch(lessonRemovedFromCourse(id)),
-        onEdit:(id)=>console.log(`on edit ${id}`)
+        onDelete:(id)=>dispatch(lessonRemovedFromCourse(id))
     }
 }
 

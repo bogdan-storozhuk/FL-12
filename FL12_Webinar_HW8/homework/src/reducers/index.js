@@ -4,6 +4,33 @@ const initialState = {
     error: null,
     term: ''
 };
+
+const updateCourseLessons = (lessons, item, idx) => {
+    if (idx === -1) {
+        return [
+            ...lessons,
+            item
+        ];
+    }
+    return [...lessons.slice(0, idx),
+        item,
+        ...lessons.slice(idx + 1)
+    ];
+};
+const updateCourseLesson=(lesson,item)=>{
+    if (item) {
+        return {
+            ...item,
+            topic: lesson.topic,
+            date: lesson.date,
+            lecturer: lesson.lecturer,
+            duration: lesson.duration
+        };
+    } else {
+        return lesson;
+    }
+}
+
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case 'FETCH_COURSE_LESSONS_REQUEST':
@@ -28,13 +55,15 @@ const reducer = (state = initialState, action) => {
                     error: action.payload
             };
         case 'LESSON_ADDED_TO_COURSE':
+            const lesson=action.payload;
+            const itemIndex = state.courseLessons.findIndex(({id}) => id === lesson.id);
+            const item = state.courseLessons[itemIndex];
+            const newItem=updateCourseLesson(lesson,item)
             return {
                 ...state,
-                courseLessons: [
-                    ...state.courseLessons,
-                    action.payload
-                ]
+                courseLessons: updateCourseLessons(state.courseLessons, newItem, itemIndex)
             };
+
         case 'LESSON_REMOVED_FROM_COURSE':
             return {
                 ...state,

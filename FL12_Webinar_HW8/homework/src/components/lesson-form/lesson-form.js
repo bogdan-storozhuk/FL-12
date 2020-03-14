@@ -9,7 +9,7 @@ import './lesson-form.css';
 class LessonForm extends Component {
     
     state={
-        id:'_' + Math.random().toString(36).substr(2, 9),
+        id:Math.random().toString(36).substr(2, 9),
         topic:'',
         date:'',
         lecturer:'',
@@ -53,7 +53,6 @@ class LessonForm extends Component {
         }
     }
     render() {
-        console.log(this.state);
         return (<div className='form-container'>
                      <form className='lesson-form'>
                         <FormHeader title={'New lesson'}/>

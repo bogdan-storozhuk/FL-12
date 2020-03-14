@@ -1,0 +1,19 @@
+.course-list-item{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    color: #8b8b8b;
+    padding: 20px;
+    background-color:white;
+    margin-bottom: 5px;
+}
+.topic{
+    color:#5a5a5a;
+    font-weight: bold;
+}
+.icon{
+    width: 15%;
+}
+.edit-link{
+    color: black;
+    text-decoration: none;
+}

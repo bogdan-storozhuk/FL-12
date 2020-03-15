@@ -1,6 +1,10 @@
 import React, {Component} from 'react';
-import {lessonAddedToCourse} from '../../actions';
+import {lessonAddedToCourse,fetchCourseLessons} from '../../actions';
+import {withCourseService} from '../hoc';
+import {compose} from '../../utils';
 import {connect} from 'react-redux';
+import Spinner from '../spinner/';
+import ErrorIndicator from '../error-indicator';
 import FormHeader from '../form-header';
 import FormField from '../form-field';
 import FormControls from '../form-controls';
@@ -38,11 +42,36 @@ class LessonForm extends Component {
     onSubmit=()=>{
         this.props.onItemAdded(this.state);
     }
-    componentDidMount(){
-        let {itemId} =this.props.itemId;
+    componentDidUpdate(prevProps, prevState){
+        if (prevState !== this.state){
+            return;
+        }
+        const {courseLessons}=this.props;
+        const {itemId} =this.props.itemId;
+        if(courseLessons.length===0){
+            return;
+        }
         if(itemId){
-            itemId=Number(itemId);
-            const lesson=this.props.courseLessons.filter(item=>item.id===itemId);
+            const lesson=this.props.courseLessons.filter(item=>item.id==itemId);
+           this.setState({
+               id:lesson[0].id,
+               topic:lesson[0].topic,
+               date:lesson[0].date,
+               lecturer:lesson[0].lecturer,
+               duration:lesson[0].duration
+           });
+        }
+    }
+
+    componentDidMount(){
+        const {fetchCourseLessons, courseLessons}=this.props;
+        const {itemId} =this.props.itemId;
+        if(courseLessons.length === 0){
+            fetchCourseLessons();
+            return;
+        }
+        if(itemId){
+            const lesson=this.props.courseLessons.filter(item=>item.id==itemId);
            this.setState({
                id:lesson[0].id,
                topic:lesson[0].topic,
@@ -53,6 +82,13 @@ class LessonForm extends Component {
         }
     }
     render() {
+        const {loading,error}=this.props;
+        if(loading){
+            return <Spinner/>
+        }
+        if(error){
+            return <ErrorIndicator/>;
+        } 
         return (<div className='form-container'>
                      <form className='lesson-form'>
                         <FormHeader title={'New lesson'}/>
@@ -66,14 +102,20 @@ class LessonForm extends Component {
     }
 }
 
-const mapDispatchToProps=(dispatch)=>{
+const mapDispatchToProps=(dispatch,{courseService})=>{
     return{
-        onItemAdded:(lesson)=>{dispatch(lessonAddedToCourse(lesson))}
+        onItemAdded:(lesson)=>{dispatch(lessonAddedToCourse(lesson))},
+        fetchCourseLessons:fetchCourseLessons(dispatch,courseService)
     }
 }
-const mapStateToProps=({courseLessons})=>{
+const mapStateToProps=({courseLessons,loading,error})=>{
     return{
-        courseLessons
+        courseLessons,
+        loading,
+        error
     }
 }
-export default connect(mapStateToProps,mapDispatchToProps)(LessonForm);
+export default compose(
+    withCourseService(),
+    connect(mapStateToProps,mapDispatchToProps)
+)(LessonForm);

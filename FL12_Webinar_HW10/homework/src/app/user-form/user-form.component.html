@@ -1,0 +1,7 @@
+ <form class="user-form" [formGroup]="form" (ngSubmit)="submit()">
+    <input type="text" formControlName="name"/>
+    <input type="text" formControlName="email"/>
+    <input type="text" formControlName="phone"/>
+    <button type="submit" [disabled]="form.invalid">Save</button>
+    <button type="button" (click)="discard()">Discard</button>
+  </form>

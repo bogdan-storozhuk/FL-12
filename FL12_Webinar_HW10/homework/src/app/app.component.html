@@ -1,0 +1,8 @@
+<div class='user-list-controlbar'>
+  <input class='user-list-searchbar' type='text' placeholder='Search' [(ngModel)]="search">
+  <button class='user-list-add-button' (click)="postFormToggle=!postFormToggle">Add user</button>
+</div>
+<ul class='user-list'>
+  <app-user-form (onDiscard)="discardFormChanges()" (onAdd)="updateUsers($event)" *ngIf="postFormToggle"></app-user-form>
+  <app-user-item (onRemove)="usersService.removeUser($event)" *ngFor="let user of usersService.getUsers() | filter:search" [user]="user"></app-user-item>
+</ul>

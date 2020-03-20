@@ -1,0 +1,20 @@
+<div class='form-container'>
+  <a class='back-button' [routerLink]="['/users']">&#8592;</a>
+  <form class='user-form' [formGroup]="form" (ngSubmit)="submit()">
+    <h1 class='form-header'>New User</h1>
+    <label class='field-label' for='name'>Name<span class="required">*</span></label>
+    <input [value]="user?.name" class="form-input" type="text" id='name' formControlName="name">
+    <label class='field-label' for='email'>Email<span class="required">*</span></label>
+    <input [value]="user?.email" class="form-input" type="text" id='email' formControlName="email">
+    <label class='field-label' for='phone'>Phone<span class="required">*</span></label>
+    <input [value]="user?.phone" class="form-input" type="text" id='phone' formControlName="phone">
+    <label class='field-label' for='adress'>Adress</label>
+    <input [value]="user?.adress" type="text" id='adress' formControlName="adress">
+    <label class='field-label' for='website'>Website</label>
+    <input [value]="user?.website" type="text" id='website' formControlName="website">
+    <div class='form-controls'>
+      <button class="form-button" type="submit" [disabled]="form.invalid">Save</button>
+      <button class="form-button" type="button" (click)="discard()">Discard</button>
+    </div>
+  </form>
+</div>

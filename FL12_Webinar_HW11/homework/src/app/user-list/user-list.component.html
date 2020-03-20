@@ -1,0 +1,13 @@
+<div *ngIf="!loading; else loadingBlock">
+  <div *ngIf="users.length; else noUsersBlock">
+  <ul class='user-list'>
+    <app-user-item (onRemove)="removeUser($event)" *ngFor="let user of users | filter:search" [user]="user"></app-user-item>
+  </ul>
+  </div>
+  <ng-template #noUsersBlock>
+    <p class="info-text">No users</p>
+  </ng-template>
+</div>
+<ng-template #loadingBlock>
+  <p class="info-text">Loading...</p>
+</ng-template>

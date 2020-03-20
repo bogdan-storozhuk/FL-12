@@ -1,0 +1,4 @@
+<div class='user-list-controlbar'>
+  <input class='user-list-searchbar' type='text' placeholder='Search' [(ngModel)]="search" [value]="search" (input)="onInput($event)">
+  <button (click)="goToAddUserForm()" class='user-list-add-button'>Add user</button>
+</div>

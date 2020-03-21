@@ -10,6 +10,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 })
 export class FormPageComponent implements OnInit {
   user: User;
+  formName = 'New User';
   form: FormGroup;
   constructor(private route: ActivatedRoute, private usersService: UsersService, private router: Router) { }
 
@@ -26,6 +27,7 @@ export class FormPageComponent implements OnInit {
           this.usersService.getById(+params.id)
             .subscribe(user => {
               this.user = user;
+              this.formName = 'Edit User';
             });
         }
       });

@@ -1,7 +1,7 @@
 <div class='form-container'>
   <a class='back-button' [routerLink]="['/users']">&#8592;</a>
   <form class='user-form' [formGroup]="form" (ngSubmit)="submit()">
-    <h1 class='form-header'>New User</h1>
+    <h1 class='form-header'>{{formName}}</h1>
     <label class='field-label' for='name'>Name<span class="required">*</span></label>
     <input [value]="user?.name" class="form-input" type="text" id='name' formControlName="name">
     <label class='field-label' for='email'>Email<span class="required">*</span></label>

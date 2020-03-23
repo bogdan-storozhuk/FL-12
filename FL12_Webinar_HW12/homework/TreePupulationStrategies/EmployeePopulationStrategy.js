@@ -19,11 +19,11 @@ export default class EmployeePopulationStrategy {
     };
 
     addCaretToggleListeners() {
-        const toggler = document.getElementsByClassName("caret");
+        const toggler = document.getElementsByClassName('caret');
         for (let index = 0; index < toggler.length; index++) {
-            toggler[index].addEventListener("click", function () {
-                this.parentElement.querySelector(".nested").classList.toggle("active");
-                this.classList.toggle("caret-down");
+            toggler[index].addEventListener('click', function () {
+                this.parentElement.querySelector('.nested').classList.toggle('active');
+                this.classList.toggle('caret-down');
             });
         }
     }

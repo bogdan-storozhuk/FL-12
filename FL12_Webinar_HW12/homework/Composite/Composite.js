@@ -9,7 +9,7 @@ export default class Composite extends Component {
 
     add(leaf) {
         if (!leaf instanceof Component) {
-            throw "wrong type, must be Component";
+            throw 'wrong type, must be Component';
         }
 
         this.leafs.push(leaf);

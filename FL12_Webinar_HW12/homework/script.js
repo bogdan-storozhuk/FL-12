@@ -25,7 +25,7 @@ document.getElementById('showWarningEmployees').addEventListener('click', (event
 })
 
 function changeTabs(event) {
-    const tablinks = document.getElementsByClassName("tablinks");
+    const tablinks = document.getElementsByClassName('tablinks');
     for (let i = 0; i < tablinks.length; i++) {
         tablinks[i].classList.remove('active');
     }

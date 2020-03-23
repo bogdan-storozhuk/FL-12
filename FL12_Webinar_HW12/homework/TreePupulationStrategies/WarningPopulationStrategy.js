@@ -1,13 +1,13 @@
 import Employees from '../epms.js';
-import ResourceManager from '../Composite/WarningComposite/ResourceManager.js';
-import Developer from '../Composite/WarningComposite/Developer.js';
+import Composite from '../Composite/Composite.js';
+import Leaf from '../Composite/Leaf.js';
 
 export default class WarningPopulationStrategy {
 
-    pupulateAllEmployees(resourceManager) {
+    pupulateAllEmployees(compositeElement) {
         Employees.forEach(item => {
             if (item.performance === 'low') {
-                resourceManager.add(new Developer(item.id, item.name))
+                compositeElement.add(new Leaf(item.id, item.name))
             }
         });
     }
@@ -23,10 +23,10 @@ export default class WarningPopulationStrategy {
     }
 
     execute() {
-            const headResourceManager = new ResourceManager(999, 'Warning employees'),
+        const compositeElement = new Composite(0, 'Warning employees'),
             baseUl = document.getElementById('baseUl');
-        this.pupulateAllEmployees(headResourceManager, Employees);
-        headResourceManager.display(baseUl);
+        this.pupulateAllEmployees(compositeElement);
+        compositeElement.display(baseUl);
         this.addCaretToggleListeners();
     }
 

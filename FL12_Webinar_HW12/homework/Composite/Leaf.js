@@ -7,7 +7,7 @@ export default class Leaf extends Component {
 
     display(ulElement) {
         let liElement = document.createElement('li');
-        liElement.textContent = `Developer - ${this.content}`;
+        liElement.textContent = this.content;
         ulElement.appendChild(liElement);
     }
 }

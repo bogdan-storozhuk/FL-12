@@ -1,7 +1,6 @@
 import Employees from '../epms.js';
-import UnitLeaf from '../Composite/UnitsComposite/UnitLeaf.js';
-import UnitComposite from '../Composite/UnitsComposite/UnitComposite.js';
-
+import Composite from '../Composite/Composite.js';
+import Leaf from '../Composite/Leaf.js';
 export default class UnitPopulationStrategy {
 
     getAvarageSalary(rmId) {
@@ -16,10 +15,10 @@ export default class UnitPopulationStrategy {
     pupulateAllUnits(unit, allEmployees) {
         const employes = allEmployees.filter(item => item.rm_id == unit.id && this.isResourceManager(item));
         employes.forEach(item => this.isEmployeeHaveResourceManagerInUnit(item.id) ?
-            unit.add(new UnitComposite(item.id, item.pool_name, this.getAvarageSalary(item.id))) :
-            unit.add(new UnitLeaf(item.id, item.pool_name, this.getAvarageSalary(item.id)))
+            unit.add(new Composite(item.id, `${item.pool_name}, average salary:$${this.getAvarageSalary(item.id)}`,item.pool_name)) :
+            unit.add(new Leaf(item.id, `${item.name}, average salary:$${this.getAvarageSalary(item.id)}`,item.pool_name))
         );
-        const unitsThatHaveResourceManagers = unit.units.filter(item => this.isEmployeeHaveResourceManagerInUnit(item.id));
+        const unitsThatHaveResourceManagers = unit.leafs.filter(item => this.isEmployeeHaveResourceManagerInUnit(item.id));
         unitsThatHaveResourceManagers.forEach(item => this.pupulateAllUnits(item, allEmployees));
     }
 
@@ -43,7 +42,7 @@ export default class UnitPopulationStrategy {
     execute() {
         const topEmployee = Employees.find(item => item.rm_id === null),
             salary = this.getAvarageSalary(topEmployee.id),
-            headUnit = new UnitComposite(topEmployee.id, topEmployee.pool_name, salary),
+            headUnit = new Composite(topEmployee.id, `${topEmployee.pool_name}, average salary:$${salary}`,topEmployee.pool_name),
             baseUl = document.getElementById('baseUl');
         this.pupulateAllUnits(headUnit, Employees);
         headUnit.display(baseUl);

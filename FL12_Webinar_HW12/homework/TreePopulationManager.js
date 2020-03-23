@@ -4,7 +4,7 @@ export default class TreePopulationManager {
         this.strategy = strategy
     }
 
-    populate(){
+    populate() {
         this.strategy.execute();
     }
 }

@@ -1,8 +1,9 @@
 import Component from './Component.js';
 export default class Composite extends Component {
 
-    constructor(id, content) {
+    constructor(id, content, pool_name=null) {
         super(id, content);
+        this.pool_name = pool_name;
         this.leafs = [];
     }
 
@@ -23,7 +24,7 @@ export default class Composite extends Component {
         spanElement.classList.add('resource-manager');
         innerUlElement.classList.add('nested');
 
-        spanElement.textContent = `Resource Manager - ${this.content}`;
+        spanElement.textContent = this.content;
 
         ulElement.appendChild(liElement);
         liElement.appendChild(spanElement);

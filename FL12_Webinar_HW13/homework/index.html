@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= htmlWebpackPlugin.options.title %></title>
+</head>
+
+<body>
+    <main class='main-content'>
+        <div>
+            <p class='turn-indicator'>Turn: <span class='player'></span></p>
+        </div>
+        <div class='game-board'>
+            <div data-cell-index="0" class='block top left'></div>
+            <div data-cell-index="1" class='block top'></div>
+            <div data-cell-index="2" class='block top right'></div>
+            <div data-cell-index="3" class='block left'></div>
+            <div data-cell-index="4" class='block'></div>
+            <div data-cell-index="5" class='block right'></div>
+            <div data-cell-index="6" class='block bottom left'></div>
+            <div data-cell-index="7" class='block bottom'></div>
+            <div data-cell-index="8" class='block bottom right'></div>
+        </div>
+        <p class='game-result'></p>
+        <div class='controls'>
+            <button class='new-game-button'>New Game</button>
+            <button class='clear-button'>Clear</button>
+            <p>Player1:<span class='player1-score'></span></p>
+            <p>Player2:<span class='player2-score'></span></p>
+        </div>
+    </main>
+</body>
+
+</html>

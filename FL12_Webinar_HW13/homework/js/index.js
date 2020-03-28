@@ -62,9 +62,11 @@ class TicTacToe {
                 const gameResultElement = document.querySelector('.game-result');
                 if (this.player1Turn) {
                     this.player1Wins++;
+                    this.highlightWinningRow(conditionSet);
                     gameResultElement.textContent = 'Player1 won!!!'
                 } else {
                     this.player2Wins++;
+                    this.highlightWinningRow(conditionSet);
                     gameResultElement.textContent = 'Player2 won!!!'
                 }
                 this.updateScore();
@@ -82,11 +84,29 @@ class TicTacToe {
         }
     }
 
+    highlightWinningRow(conditionSet) {
+        const blockElements = document.querySelectorAll('.block');
+        blockElements.forEach(element => {
+            if (conditionSet.includes(Number(element.getAttribute('data-cell-index')))) {
+                element.classList.add('highlighted-block');
+            }
+        });
+    }
+    removeHighlight() {
+        const blockElements = document.querySelectorAll('.block');
+        blockElements.forEach(element => {
+            if (element.classList.contains('highlighted-block')) {
+                element.classList.remove('highlighted-block');
+            }
+        });
+    }
+
     restartGame() {
         let blocks = document.querySelectorAll('.block');
         for (let block of blocks) {
             block.innerHTML = '';
         }
+        this.removeHighlight()
         this.isGameFinished = false;
         this.player1Turn = Math.random() < 0.5 ? true : false;
         this.player1State = [];

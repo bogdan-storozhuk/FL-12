@@ -1,44 +1,63 @@
 import '../src/styles.less';
 import Mark from './mark.js'
+import Player from './player.js'
 class TicTacToe {
-    constructor() {
+    constructor(player1, player2) {
         this.player1Turn = Math.random() < 0.5 ? true : false;
-        this.player1State = [];
-        this.player2State = [];
-        this.player1Wins = 0;
-        this.player2Wins = 0;
-        this.isGameFinished = false;
+        this.player1 = player1;
+        this.player2 = player2;
+        this.isGameWon = false;
         document.querySelector('.player').textContent = this.player1Turn ? 'Player 1' : 'Player 2';
     }
 
     get selectedBlockCount() {
-        return this.player1State.length + this.player2State.length;
+        return this.player1.markedElementsCount + this.player2.markedElementsCount;
+    }
+
+    isGameFinished() {
+        return this.isGameWon || this.isDraw();
+    }
+
+    isDraw() {
+        return this.selectedBlockCount >= 9 && !this.isGameWon;
+    }
+
+    isBlockClicked(event) {
+        return !event.target.classList.contains('block') || event.target.hasChildNodes();
+    }
+
+    isMinSelectedBlocksNumberNeededToWin(blockNumber) {
+        return blockNumber >= 5
     }
 
     placeMark(event) {
-        if (this.isGameFinished || this.selectedBlockCount >= 9) {
+        if (this.isGameFinished()) {
             this.restartGame();
             return;
         }
-        if (!event.target.classList.contains('block') || event.target.hasChildNodes()) return;
+
+        if (this.isBlockClicked(event)) return;
+
         const signElement = document.createElement('div');
         if (this.player1Turn) {
             signElement.classList.add('x');
-            this.player1State.push(new Mark(event.target.getAttribute('data-cell-index')));
+            this.player1.addToMarkState(new Mark(event.target.getAttribute('data-cell-index')));
         } else {
             signElement.classList.add('o');
-            this.player2State.push(new Mark(event.target.getAttribute('data-cell-index')));
+            this.player2.addToMarkState(new Mark(event.target.getAttribute('data-cell-index')));
         }
+
         event.target.appendChild(signElement);
-        if (this.selectedBlockCount >= 5) {
-            this.player1Turn === true ? this.checkConditions(this.player1State) :
-                this.checkConditions(this.player2State);
+        if (this.isMinSelectedBlocksNumberNeededToWin(this.selectedBlockCount)) {
+            this.player1Turn === true ? this.checkWinningConditions(this.player1.markState) :
+                this.checkWinningConditions(this.player2.markState);
         }
+
         this.player1Turn = !this.player1Turn;
         document.querySelector('.player').textContent = this.player1Turn ? 'Player 1' : 'Player 2';
     }
 
-    checkConditions(playerState) {
+    checkWinningConditions(playerState) {
         const winningConditions = [
             [0, 1, 2],
             [3, 4, 5],
@@ -49,38 +68,45 @@ class TicTacToe {
             [0, 4, 8],
             [2, 4, 6]
         ];
+
         let conditionMatch = 0;
         for (let conditionSet of winningConditions) {
             for (let condition of conditionSet) {
-                for (let element of playerState) {
-                    if (condition == element.getPosition()) {
+                for (let mark of playerState) {
+                    if (condition == mark.getPosition()) {
                         conditionMatch++;
                     }
                 }
             }
+
             if (conditionMatch === 3) {
-                const gameResultElement = document.querySelector('.game-result');
-                if (this.player1Turn) {
-                    this.player1Wins++;
-                    this.highlightWinningRow(conditionSet);
-                    gameResultElement.textContent = 'Player1 won!!!'
-                } else {
-                    this.player2Wins++;
-                    this.highlightWinningRow(conditionSet);
-                    gameResultElement.textContent = 'Player2 won!!!'
-                }
+                this.displayWinner(conditionSet);
                 this.updateScore();
-                this.isGameFinished = true;
+                this.isGameWon = true;
                 return;
             } else {
                 conditionMatch = 0;
             }
         }
-        if (this.selectedBlockCount >= 9 && !this.isGameFinished) {
-            this.player1Wins++;
-            this.player2Wins++;
+
+        if (this.isDraw()) {
+            this.player1.addWin();
+            this.player2.addWin();
             this.updateScore();
             document.querySelector('.game-result').textContent = 'Its a draw!!!';
+        }
+    }
+
+    displayWinner(winningCondition) {
+        const gameResultElement = document.querySelector('.game-result');
+        if (this.player1Turn) {
+            this.player1.addWin();
+            this.highlightWinningRow(winningCondition);
+            gameResultElement.textContent = 'Player1 won!!!'
+        } else {
+            this.player2.addWin();
+            this.highlightWinningRow(winningCondition);
+            gameResultElement.textContent = 'Player2 won!!!'
         }
     }
 
@@ -106,28 +132,29 @@ class TicTacToe {
         for (let block of blocks) {
             block.innerHTML = '';
         }
+
         this.removeHighlight()
-        this.isGameFinished = false;
+        this.isGameWon = false;
         this.player1Turn = Math.random() < 0.5 ? true : false;
-        this.player1State = [];
-        this.player2State = [];
+        this.player1.resetMarkState();
+        this.player2.resetMarkState();
         document.querySelector('.game-result').textContent = '';
         document.querySelector('.player').textContent = this.player1Turn ? 'Player 1' : 'Player 2';
     }
 
     clearScore() {
-        this.player1Wins = 0;
-        this.player2Wins = 0;
+        this.player1.resetWinsCount();
+        this.player2.resetWinsCount();
         this.updateScore();
     }
 
     updateScore() {
-        document.querySelector('.player1-score').textContent = this.player1Wins;
-        document.querySelector('.player2-score').textContent = this.player2Wins;
+        document.querySelector('.player1-score').textContent = this.player1.wins;
+        document.querySelector('.player2-score').textContent = this.player2.wins;
     }
 }
 
-const newGame = new TicTacToe();
+const newGame = new TicTacToe(new Player(), new Player());
 
 document.querySelector('.game-board').addEventListener('click', (event) => newGame.placeMark(event));
 document.querySelector('.new-game-button').addEventListener('click', () => {

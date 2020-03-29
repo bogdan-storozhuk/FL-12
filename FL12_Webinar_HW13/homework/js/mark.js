@@ -1,5 +1,7 @@
-export default class Mark{
-    constructor(position){
-        this.getPosition=()=>{return position;}
+export default class Mark {
+    constructor(position) {
+        this.getPosition = () => {
+            return position;
+        }
     }
 }
